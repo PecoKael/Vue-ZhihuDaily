@@ -9,6 +9,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "leancloud-storage": "^1.5.1",
+    "leanengine": "^1.2.2",
     "mint-ui": "^2.0.2",
     "vue": "^2.0.1"
   },

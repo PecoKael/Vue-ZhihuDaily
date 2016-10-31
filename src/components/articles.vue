@@ -1,7 +1,7 @@
 <template>
     <div class="s" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="false">
         <div class="articles" v-for="list in items">
-            <div class="date">
+            <div class="date" id="sss">
                 {{list.date}}
             </div>
             <router-link :to="{ name: 'detail',  params: { id: article.id }}" v-for="article in list.stories">

@@ -1,8 +1,16 @@
 <template>
     <div class="detail">
-        <router-link to="/">Go to home</router-link>
-        asdfa
-        <div class="detail-content" v-html="body.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')"></div>
+       <router-link to="/">Go to home</router-link>
+        <div v-show="data.image" class="img-box2" :style="{'background-image': 'url('+ String(data.image).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +')'}">
+            <div class="top-title">
+                {{data.title}}
+            </div>
+        </div>
+        <div v-show="!data.image" class="theme-title">
+                {{data.title}}
+        </div>
+         
+        <div class="detail-content" v-html="String(data.body).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')"></div>
         <!-- {{body}} -->
     </div>
 </template>
@@ -11,7 +19,7 @@ export default {
     name: 'detail',
     data() {
         return {
-            body:''
+            data:''
         }
     },
     components: {
@@ -26,7 +34,7 @@ export default {
         getArticle: function() {
             this.$http.get('api/4/news/'+this.$route.params.id).then((response) => {
                 console.log(response.data);
-                this.body = response.data.body
+                this.data = response.data;
             }, (error) => {
                 console.log(error);
             });
@@ -37,6 +45,34 @@ export default {
 </script>
 
 <style>
+.theme-title{
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1.8rem;
+}
+.img-box2{
+    height: 220px;
+    width: 100%;
+    border-bottom: 4px solid #f6f6f6;
+    background-size: cover;
+    position: relative;
+
+}
+
+.img-box2 .top-title{
+    position: absolute;
+    bottom:1.8rem;
+    padding: 0 1rem;
+    line-height: 1.2;
+    font-weight: 500;
+    font-size: 1.9rem;
+    color: #fff;
+}
+
+.headline, .img-place-holder{
+    display: none;
+}
 article,
 aside,
 details,

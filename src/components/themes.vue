@@ -1,11 +1,17 @@
 <template>
     <div class="themes">
-        <router-link to="/">Go to home</router-link>
-        <div class="img-box2" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +')'}">
+        <div class="header" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')  +')'}">
+            <div class="th-re" onclick="window.history.go(-1)">
+                <i class="iconfont icon-jiantou-copy"></i>
+            </div>
+            {{data.name}}
+        </div>
+        <!-- <router-link to="/">Go to home</router-link> -->
+        <!-- <div class="img-box2" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +')'}">
             <div class="top-title">
                 {{data.description}}
             </div>
-        </div>
+        </div> -->
         <div class="editor" >
             主编
             <img v-for="e in data.editors" :src="e.avatar.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
@@ -55,6 +61,28 @@ export default {
 }
 </script>
 <style>
+.th-re{
+    position: absolute;
+    width: 50px;
+}
+.themes{
+    padding-top: 40px;
+}
+.themes .header{
+    background-size: cover;
+    background-position: 0 -184px;
+    background-color: rgba(0, 139, 237, 0);
+    position: relative;
+    z-index: 2;
+    font-weight: bold;
+    width: 100%;
+    color:#fff;
+    position: fixed;
+    top:0;
+    height: 40px;
+    line-height: 40px;
+    text-align: center
+}
 .art a{
     color:#000;
 }
@@ -63,6 +91,7 @@ export default {
     height: 20px;
     border-radius: 50%;
     margin-left: 10px;
+    vertical-align:middle;
 }
 .editor{
     height: 30px;

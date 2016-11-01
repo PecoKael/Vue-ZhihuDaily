@@ -22,6 +22,12 @@ const routes = [{
         require(['components/detail.vue'], resolve)
     }
 }, {
+    path: '/comments/:id',
+    name: 'comments',
+    component: (resolve) => {
+        require(['components/comments.vue'], resolve)
+    }
+},{
     path: '/themes/:id',
     name: 'themes',
     component: (resolve) => {

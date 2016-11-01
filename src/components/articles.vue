@@ -97,7 +97,7 @@ export default {
 .article .a-title {
     margin: 0;
     font-size: 1.4rem;
-    width: 18rem;
+    width: 75%;
 }
 
 .img-box {

@@ -21,7 +21,6 @@
                     <div class="p">设置</div>
                 </div>
             </div>
-              
             <div class="themes">
                 <ul>
                     <li v-for="theme in themes.others">
@@ -33,7 +32,7 @@
             </div>
         </div>
 
-        <div class="homecontent" v-bind:class="{ show: slide }">
+        <div class="homecontent"  v-bind:class="{ show: slide }">
             <div class="header" id="header">
                 <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> 今日热文
             </div>
@@ -48,8 +47,6 @@
             </mt-swipe>
             <articles></articles>
         </div>
-
-
     </div>
 </template>
 <script>
@@ -91,7 +88,16 @@ export default {
         },
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
-            // console.log(123);
+            console.log(document.documentElement.style.overflow);
+            if(document.documentElement.style.overflow == ''){
+                document.documentElement.style.overflow='hidden';
+                document.body.style.overflow='hidden';
+            // document.documentElement.style.height="100%";
+            // document.body.style.height="100%";
+             }else{
+                document.documentElement.style.overflow='';
+                document.body.style.overflow='';
+            }
         },
         getTopStories: function() {
             this.$http.get('api/4/news/latest').then((response) => {
@@ -115,9 +121,22 @@ export default {
 }
 </script>
 <style scoped>
+html {
+overflow-x:hidden;
+overflow-y:hidden;
+}
+body {
+overflow-x:hidden;
+overflow-y:hidden;
+}
+#home{
+    /*height: 700px !important;*/
+    /*overflow: hidden;*/
+}
 .themes{
-/*    overflow:scroll;
-    height: 200px;*/
+}
+.icon-gengduo{
+
 }
 ul{
     padding: 0;
@@ -138,12 +157,10 @@ ul li a{
     border-bottom: 2px solid #000;
 }
 .set .contents{
-    /*height: 60px;*/
     padding: 10px 0;
     width: 30%;
     text-align: center;
     display: inline-block;
-    
 }
 .set .p{
     margin:0;
@@ -163,8 +180,6 @@ ul li a{
     
 }
 .homecontent {
-/*    -webkit-transform: translateZ(0);
-    transform: translateZ(0);*/
     -webkit-transition: all .3s ease;
 }
 
@@ -180,8 +195,6 @@ ul li a{
 
 .sidebar-mask {
     position: fixed;
-/*    -webkit-transform: translateZ(0);
-    transform: translateZ(0);*/
     top: 0;
     right: 0;
     bottom: 0;
@@ -194,8 +207,6 @@ ul li a{
     color:#c2c9d0;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
-/*    -webkit-transform: translateZ(0);
-    transform: translateZ(0);*/
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -205,10 +216,10 @@ ul li a{
     top: 0;
     bottom: 0;
     background: #232a30;
-    /*background: red;*/
 }
 
 .header {
+    max-width: 800px;
     width: 100%;
     height: 40px;
     line-height: 40px;
@@ -222,8 +233,12 @@ ul li a{
 }
 
 .icon-gengduo {
+    /*float: left;*/
+    width: 50px;
     position: absolute;
-    left: 1rem;
+    left:0;
+    /*position: absolute;*/
+    /*left: 1rem;*/
 }
 
 .mint-swipe {

@@ -12,20 +12,20 @@
                 {{data.description}}
             </div>
         </div> -->
+        <router-link :to="{ name: 'editor',  params: { id: $route.params.id }}">
         <div class="editor" >
             主编
+            <i class="iconfont icon-jiantou fr"></i>
             <img v-for="e in data.editors" :src="e.avatar.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
         </div>
+        </router-link>
         <div class="art" v-for="e in data.stories">
         <router-link :to="{ name: 'detail',  params: { id: e.id }}">
             <div class="list-content-box">
-
                 {{e.title}}
             </div>
             </router-link>
-        </div>
-        
-
+        </div> 
     </div>
 </template>
 <script>
@@ -42,6 +42,8 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getThemeContent();
+              document.documentElement.style.overflow='';
+                document.body.style.overflow='';
         })
     },
     methods: {
@@ -61,6 +63,10 @@ export default {
 }
 </script>
 <style>
+.fr{
+    float:right;
+    margin-right: 20px;
+}
 .th-re{
     position: absolute;
     width: 50px;
@@ -69,6 +75,7 @@ export default {
     padding-top: 40px;
 }
 .themes .header{
+    max-width: 800px;
     background-size: cover;
     background-position: 0 -184px;
     background-color: rgba(0, 139, 237, 0);
@@ -94,8 +101,8 @@ export default {
     vertical-align:middle;
 }
 .editor{
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     padding-left: 1rem;
     border-bottom: 1px solid #eee;
     font-size: 1.4rem;

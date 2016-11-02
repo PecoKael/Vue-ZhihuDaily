@@ -1,8 +1,8 @@
 <template>
     <div class="s" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="false">
         <div class="articles" v-for="list in items">
-            <div class="date" id="sss">
-                {{list.date}}
+            <div v-show="list.date != date" class="date">
+                {{list.date | getDays}}
             </div>
             <router-link :to="{ name: 'detail',  params: { id: article.id }}" v-for="article in list.stories">
             <div class="article" >
@@ -25,6 +25,7 @@ export default {
         return {
             items: [],
             day: 1,
+            date:''
         }
     },
     components: {
@@ -71,10 +72,10 @@ export default {
         getTopStories: function() {
             this.$http.get('api/4/news/latest').then((response) => {
                 console.log(response.data);
+                this.date = response.data.date;
                 if (response.status == 200) {
                     this.items.push(response.data);
                 }
-
             }, (error) => {
                 console.log(error);
             });

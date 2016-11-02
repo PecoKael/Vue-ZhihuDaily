@@ -27,21 +27,37 @@ const routes = [{
     component: (resolve) => {
         require(['components/comments.vue'], resolve)
     }
-},{
+}, {
     path: '/themes/:id',
     name: 'themes',
     component: (resolve) => {
         require(['components/themes.vue'], resolve)
     }
-},]
+}, {
+    path: '/editor/:id',
+    name: 'editor',
+    component: (resolve) => {
+        require(['components/editor.vue'], resolve)
+    }
+}, ]
 
 const router = new VueRouter({
     routes: routes // （缩写）相当于 routes: routes
 })
 
-Vue.prototype.$replaceSrc = (url) => {
-    return String(url).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p');
-}
+Vue.filter("getDays", function(value) {
+    var week = new Date(value.slice(0, 4) + '/' + value.slice(4, 6) + '/' + value.slice(6, 8)).getDay();
+    var dayMap = {
+        '0': '星期日',
+        '1': '星期一',
+        '2': '星期二',
+        '3': '星期三',
+        '4': '星期四',
+        '5': '星期五',
+        '6': '星期六',
+    }
+    return value.slice(4, 6) + '月' + value.slice(6, 8) + '日 ' + dayMap[week];
+});
 
 /* eslint-disable no-new */
 new Vue({

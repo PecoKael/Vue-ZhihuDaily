@@ -79,6 +79,7 @@ span.comment{
     top:7px;
     color: #fff;
     left:40px;
+    left:52%;
     width: 25px;
     height: 14px;
     line-height: 14px;
@@ -102,6 +103,7 @@ span.comment{
     background: #fff;
     z-index: 2;
     border-top: 1px solid #eee;
+    max-width: 800px;
 }
 
 .theme-title {

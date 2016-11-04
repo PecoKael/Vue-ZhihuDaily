@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1478063391061'); /* IE9*/
-  src: url('iconfont.eot?t=1478063391061#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1478063391061') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1478063391061') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1478063391061#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1478248513860'); /* IE9*/
+  src: url('iconfont.eot?t=1478248513860#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1478248513860') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1478248513860') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1478248513860#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -36,7 +36,11 @@
 
 .icon-jiantou:before { content: "\e662"; }
 
+.icon-tupianduoxuan:before { content: "\e612"; }
+
 .icon-gengduo-copy:before { content: "\e602"; }
+
+.icon-duotu:before { content: "\e661"; }
 
 .icon-lingdang:before { content: "\e647"; }
 

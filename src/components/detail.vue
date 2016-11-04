@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <div v-show="data.image" class="img-box2" :style="{'background-image': 'url('+ String(data.image).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +')'}">
+        <div v-show="data.image" class="img-box2" :style="{'background-image': 'url('+ String(data.image).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +'&w=300)'}">
             <div class="top-title">
                 {{data.title}}
             </div>
@@ -107,10 +107,12 @@ span.comment{
 }
 
 .theme-title {
-    text-align: center;
+    /*text-align: center;*/
     /*height: 50px;*/
     /*line-height: 50px;*/
+    padding: 10px 20px;
     font-size: 1.8rem;
+    border-bottom: 4px solid #f6f6f6
 }
 
 .img-box2 {

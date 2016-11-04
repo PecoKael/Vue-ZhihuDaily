@@ -39,7 +39,7 @@
             <mt-swipe :auto="4000">
                 <mt-swipe-item class="slide1" v-for="item in items">
                     <router-link :to="{ name: 'detail',  params: { id: item.id }}">
-                        <div class="banner" :style="{'background-image': 'url('+ item.image.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +')'}">
+                        <div class="banner" :style="{'background-image': 'url('+ item.image.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +'&w=300)'}">
                             <div class="banner-title">{{item.title}}</div>
                         </div>
                     </router-link>
@@ -47,6 +47,7 @@
             </mt-swipe>
             <articles></articles>
         </div>
+
     </div>
 </template>
 <script>
@@ -134,6 +135,8 @@ overflow-y:hidden;
     /*overflow: hidden;*/
 }
 .themes{
+    height: 300px;
+    overflow: scroll;
 }
 .icon-gengduo{
 
@@ -142,7 +145,7 @@ ul{
     padding: 0;
     margin:0;
     padding-left:20px;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     font-size: 1.8rem;
 }
 ul li{

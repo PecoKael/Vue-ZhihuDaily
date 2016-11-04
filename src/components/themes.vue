@@ -6,12 +6,6 @@
             </div>
             {{data.name}}
         </div>
-        <!-- <router-link to="/">Go to home</router-link> -->
-        <!-- <div class="img-box2" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +')'}">
-            <div class="top-title">
-                {{data.description}}
-            </div>
-        </div> -->
         <router-link :to="{ name: 'editor',  params: { id: $route.params.id }}">
         <div class="editor" >
             主编
@@ -21,8 +15,11 @@
         </router-link>
         <div class="art" v-for="e in data.stories">
         <router-link :to="{ name: 'detail',  params: { id: e.id }}">
-            <div class="list-content-box">
+            <div class="list-content-box" v-bind:class="{bindwidth:e.images}">
                 {{e.title}}
+            </div>
+            <div v-if="e.images" class="imgshow">
+                <img :src="e.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
             </div>
             </router-link>
         </div> 
@@ -63,6 +60,24 @@ export default {
 }
 </script>
 <style>
+.bindwidth{
+    width: 80%;
+}
+.art{
+    padding: 10px 10px; 
+    height: 50px;
+}
+.imgshow{
+    vertical-align: center;
+    width: 20%;
+    height: 50px;
+    display: inline-block;
+    float: right;
+}
+.imgshow img{
+    width: 100%;
+    height: 100%;
+}
 .fr{
     float:right;
     margin-right: 20px;
@@ -108,6 +123,8 @@ export default {
     font-size: 1.4rem;
 }
 .list-content-box{
+    /*height: 70px;*/
+    /*padding: 10px 0px 0px 10px; */
     /*margin-right: .267rem;*/
     display: inline-block;
    /* -webkit-box-flex: 1;
@@ -118,7 +135,7 @@ export default {
 .art{
     border-bottom: 1px solid #eee;
     font-size: 1.6rem;
-    padding: 1rem 1rem;
+    /*padding: 1rem 1rem;*/
 }
 .img-box2 {
     height: 220px;

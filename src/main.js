@@ -45,6 +45,21 @@ const router = new VueRouter({
     routes: routes // （缩写）相当于 routes: routes
 })
 
+Vue.prototype.$getDateStr = (day) => {
+    var dd = new Date();
+    dd.setDate(dd.getDate() + day);
+    var y = dd.getFullYear();
+    var m = dd.getMonth() + 1;
+    if (m < 10) {
+        m = '0' + m;
+    }
+    var d = dd.getDate();
+    if (d < 10) {
+        d = '0' + d;
+    }
+    return y + '' + m + '' + d;
+}
+
 Vue.filter("getDays", function(value) {
     var week = new Date(value.slice(0, 4) + '/' + value.slice(4, 6) + '/' + value.slice(6, 8)).getDay();
     var dayMap = {

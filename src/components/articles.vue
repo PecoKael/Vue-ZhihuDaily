@@ -8,7 +8,8 @@
             <div class="article" >
                 <div class="a-title">{{article.title}}</div>
                 <div class="img-box">
-                    <img :src="article.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
+                    <span class="multipic" v-if="article.multipic"><i class="iconfont icon-duotu"></i>多图</span>
+                    <img :src="article.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')+'&w=200'" alt="">
                 </div>
             </div>
             </router-link>
@@ -41,25 +42,10 @@ export default {
             console.log(123);
             this.getBefore();
         },
-        getDateStr: function() {
-            var dd = new Date();
-            dd.setDate(dd.getDate() + this.day);
-            var y = dd.getFullYear();
-            var m = dd.getMonth() + 1;
-            if (m < 10) {
-                m = '0' + m;
-            }
-            var d = dd.getDate();
-            if (d < 10) {
-                d = '0' + d;
-            }
-            return y + '' + m + '' + d;
-        },
         getBefore: function() {
             this.day -= 1;
-            let day = this.getDateStr();
+            let day = this.$getDateStr(this.day);
             let url = 'api/4/news/before/' + day;
-            console.log(day);
             this.$http.get(url).then((response) => {
                 console.log(response.data)
                 if (response.status == 200) {
@@ -84,6 +70,17 @@ export default {
 }
 </script>
 <style>
+.multipic{
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    padding:4px;
+    font-size:12px; 
+    -webkit-transform-origin-x: 0;
+    -webkit-transform: scale(0.60);
+    position: absolute;
+    right: -18px;
+    bottom: -5px;
+}
 .articles a{
     color:#494b4d;
     text-decoration: none;
@@ -102,6 +99,7 @@ export default {
 }
 
 .img-box {
+    position: relative;
     position: absolute;
     top: 1.5rem;
     right: 1rem;
@@ -116,8 +114,8 @@ export default {
 
 .date {
     text-align: center;
-    height: 3rem;
-    line-height: 3rem;
+    height: 40px;
+    line-height: 40px;
     background: #008bed;
     color: #fff;
     font-weight: bold;

@@ -50,7 +50,6 @@ export default {
                 if(response.status == 200){
                     this.data = response.data;
                 }
-                // this.data = response.data;
             }, (error) => {
                 console.log(error);
             });

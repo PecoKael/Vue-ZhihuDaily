@@ -22,6 +22,7 @@ import {
 } from 'mint-ui';
 export default {
     name: 'articles',
+    props: ['article'],
     data() {
         return {
             items: [],
@@ -35,6 +36,7 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
+            console.log('!!'+this.story);
         })
     },
     methods: {
@@ -57,7 +59,7 @@ export default {
         },
         getTopStories: function() {
             this.$http.get('api/4/news/latest').then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.date = response.data.date;
                 if (response.status == 200) {
                     this.items.push(response.data);

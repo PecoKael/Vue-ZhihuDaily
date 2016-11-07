@@ -2,36 +2,7 @@
     <div class="home">
         <div v-show="slide" class="sidebar-mask" v-on:click="slideShow()">
         </div>
-        <div class="slide-box" v-bind:class="{ show: slide }">
-            <div class="user">
-                <img src="http://7xqch8.com1.z0.glb.clouddn.com/4.pic_hd.jpg" alt="">
-                <span>请登录</span>
-            </div>
-            <div class="set">
-                <div class="contents">
-                    <i class="iconfont icon-shoucang"></i>
-                    <div class="p">收藏</div>
-                </div>
-                <div class="contents">
-                    <i class="iconfont icon-lingdang"></i>
-                    <div class="p">消息</div>
-                </div>
-                <div class="contents">
-                    <i class="iconfont icon-shezhi"></i>
-                    <div class="p">设置</div>
-                </div>
-            </div>
-            <div class="themes">
-                <ul>
-                    <li v-for="theme in themes.others">
-                    <router-link :to="{ name: 'themes',  params: { id: theme.id }}">
-                    {{theme.name}}
-                    </router-link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
+        <slideBox :slide="slide"></slideBox>
         <div class="homecontent"  v-bind:class="{ show: slide }">
             <div class="header" id="header">
                 <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> 今日热文
@@ -45,13 +16,14 @@
                     </router-link>
                 </mt-swipe-item>
             </mt-swipe>
-            <articles></articles>
+            <articles :article="article" ></articles>
         </div>
 
     </div>
 </template>
 <script>
-import articles from './articles'
+import articles from './articles';
+import slideBox from './slideBox';
 import {
     Swipe,
     SwipeItem
@@ -61,12 +33,14 @@ export default {
     data() {
         return {
             items: [],
+            article:[],
             slide: false,
             themes:''
         }
     },
     components: {
-        articles
+        articles,
+        slideBox
     },
     mounted: function() {
         this.$nextTick(() => {
@@ -93,8 +67,6 @@ export default {
             if(document.documentElement.style.overflow == ''){
                 document.documentElement.style.overflow='hidden';
                 document.body.style.overflow='hidden';
-            // document.documentElement.style.height="100%";
-            // document.body.style.height="100%";
              }else{
                 document.documentElement.style.overflow='';
                 document.body.style.overflow='';
@@ -102,9 +74,11 @@ export default {
         },
         getTopStories: function() {
             this.$http.get('api/4/news/latest').then((response) => {
-                console.log(response.data.top_stories);
+                console.log(response.data);
                 if (response.status == 200) {
                     this.items = response.data.top_stories;
+                    this.article = response.data.stories;
+                    console.log(this.article);
                 }
             }, (error) => {
                 console.log(error);
@@ -112,7 +86,7 @@ export default {
         },
         setScroll: function() {
             window.onscroll = function() {
-                var op = document.documentElement.scrollTop || document.body.scrollTop / 220;
+                let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
                 if (document.getElementById('header') != null) {
                     document.getElementById('header').style.background = 'rgba(0,139,237,' + op + ')';
                 }
@@ -122,76 +96,11 @@ export default {
 }
 </script>
 <style scoped>
-html {
-overflow-x:hidden;
-overflow-y:hidden;
-}
-body {
-overflow-x:hidden;
-overflow-y:hidden;
-}
-#home{
-    /*height: 700px !important;*/
-    /*overflow: hidden;*/
-}
-.themes{
-    height: 300px;
-    overflow: scroll;
-}
-.icon-gengduo{
-
-}
-ul{
-    padding: 0;
-    margin:0;
-    padding-left:20px;
-    /*padding-top: 10px;*/
-    font-size: 1.8rem;
-}
-ul li{
-    list-style:none;
-    padding: 0.5rem 0;
-}
-ul li a{
-    text-decoration: none;
-    color:#c2c9d0;
-}
-.set{
-    border-bottom: 2px solid #000;
-}
-.set .contents{
-    padding: 10px 0;
-    width: 30%;
-    text-align: center;
-    display: inline-block;
-}
-.set .p{
-    margin:0;
-    margin-top: 5px;
-}
-.user{
-    padding: 10px 20px;
-}
-.user img {
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
-}
-.user span{
-    font-size: 1.6rem;
-    margin-left: 1rem;
-    
-}
 .homecontent {
     -webkit-transition: all .3s ease;
 }
 
 .homecontent.show {
-    -webkit-transform: translateX(17.733rem);
-    transform: translateX(17.733rem);
-}
-
-.slide-box.show {
     -webkit-transform: translateX(17.733rem);
     transform: translateX(17.733rem);
 }
@@ -204,21 +113,6 @@ ul li a{
     left: 0;
     z-index: 5;
     background: rgba(0, 0, 0, .2);
-}
-
-.slide-box {
-    color:#c2c9d0;
-    -webkit-transition: all .3s ease;
-    transition: all .3s ease;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-    width: 17.733rem;
-    left: -17.733rem;
-    z-index: 99;
-    top: 0;
-    bottom: 0;
-    background: #232a30;
 }
 
 .header {
@@ -236,12 +130,9 @@ ul li a{
 }
 
 .icon-gengduo {
-    /*float: left;*/
     width: 50px;
     position: absolute;
     left:0;
-    /*position: absolute;*/
-    /*left: 1rem;*/
 }
 
 .mint-swipe {

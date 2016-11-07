@@ -56,7 +56,6 @@ export default {
                 if (response.status == 200) {
                     this.themes = response.data;
                 }
-                
             }, (error) => {
                 console.log(error);
             });
@@ -76,9 +75,9 @@ export default {
             this.$http.get('api/4/news/latest').then((response) => {
                 console.log(response.data);
                 if (response.status == 200) {
-                    this.items = response.data.top_stories;
                     this.article = response.data.stories;
-                    console.log(this.article);
+                    this.items = response.data.top_stories;
+                                        console.log(this.article);
                 }
             }, (error) => {
                 console.log(error);

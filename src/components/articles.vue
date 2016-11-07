@@ -36,12 +36,11 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            console.log('!!'+this.story);
+            console.log('!!!'+this.article);
         })
     },
     methods: {
         loadMore: function() {
-            console.log(123);
             this.getBefore();
         },
         getBefore: function() {

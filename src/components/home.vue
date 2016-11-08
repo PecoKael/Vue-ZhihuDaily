@@ -3,9 +3,10 @@
         <div v-show="slide" class="sidebar-mask" v-on:click="slideShow()">
         </div>
         <slideBox :slide="slide"></slideBox>
-        <div class="homecontent"  v-bind:class="{ show: slide }">
+        <div class="homecontent" v-bind:class="{ show: slide }">
             <div class="header" id="header">
                 <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> 今日热文
+                <i @click="changeMode">quehuan</i>
             </div>
             <mt-swipe :auto="4000">
                 <mt-swipe-item class="slide1" v-for="item in items">
@@ -16,9 +17,8 @@
                     </router-link>
                 </mt-swipe-item>
             </mt-swipe>
-            <articles :article="article" ></articles>
+            <articles :article="article"></articles>
         </div>
-
     </div>
 </template>
 <script>
@@ -33,23 +33,48 @@ export default {
     data() {
         return {
             items: [],
-            article:[],
+            article: [],
             slide: false,
-            themes:''
+            themes: '',
+            nightStyle: false
         }
     },
     components: {
         articles,
         slideBox
     },
+
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            this.setScroll();
+            window.document.getElementById('main').classList.contains('night') ? '' : this.setScroll();
             this.getThemes();
         })
     },
     methods: {
+        changeMode: function() {
+            if (!this.nightStyle) {
+                window.document.getElementById('main').className = 'night'
+                document.getElementById('header').style.background = 'rgb(68,68,68)'
+                window.onscroll = function() {
+                    let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
+                    if (document.getElementById('header') != null) {
+                        document.getElementById('header').style.background = 'rgba(68,68,68,' + op + ')';
+                    }
+                }
+            } else {
+                window.document.getElementById('main').className = ''
+                document.getElementById('header').style.background = 'rgb(0,139,237)'
+                window.onscroll = function() {
+                    let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
+                    if (document.getElementById('header') != null) {
+                        document.getElementById('header').style.background = 'rgba(0,139,237,' + op + ')';
+                    }
+                }
+            }
+            this.nightStyle = !this.nightStyle
+
+        },
         getThemes: function() {
             this.$http.get('api/4/themes').then((response) => {
                 console.log(response.data);
@@ -63,12 +88,12 @@ export default {
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
             console.log(document.documentElement.style.overflow);
-            if(document.documentElement.style.overflow == ''){
-                document.documentElement.style.overflow='hidden';
-                document.body.style.overflow='hidden';
-             }else{
-                document.documentElement.style.overflow='';
-                document.body.style.overflow='';
+            if (document.documentElement.style.overflow == '') {
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
             }
         },
         getTopStories: function() {
@@ -77,7 +102,7 @@ export default {
                 if (response.status == 200) {
                     this.article = response.data.stories;
                     this.items = response.data.top_stories;
-                                        console.log(this.article);
+                    console.log(this.article);
                 }
             }, (error) => {
                 console.log(error);
@@ -131,7 +156,7 @@ export default {
 .icon-gengduo {
     width: 50px;
     position: absolute;
-    left:0;
+    left: 0;
 }
 
 .mint-swipe {

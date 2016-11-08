@@ -122,4 +122,18 @@ export default {
     font-weight: bold;
     padding: 0;
 }
+
+.night .date{
+    background-color: rgb(68,68,68);
+    color: #b6b6b6;
+}
+.night .article{
+    background-color: #343434;
+    border-bottom-color: #303030;
+}
+
+.night .article .a-title{
+    color: #b6b6b6;
+}
+
 </style>

@@ -14,7 +14,7 @@
             </div>
             <div class="ed-content">
                 <span>{{e.name}}</span>
-                <p>{{e.bio}}</p>
+                <div class="pp">{{e.bio}}</div>
             </div>
         </div>
     </div>
@@ -50,7 +50,17 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
+.night .editors-header{
+    background-color: #444;
+}
+.night .ed-box{
+    background-color: #343434;
+    color:#b6b6b6;
+    border-bottom-color: #303030;
+}
+
+
 .edfr{
    position: absolute;
    right: 10px;
@@ -66,7 +76,7 @@ export default {
     line-height: 30px;
     font-size: 1.4rem;
 }
-.ed-content p{
+.ed-content .pp{
     margin:0;
     color: #b1b1b1;
 }

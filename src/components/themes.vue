@@ -1,53 +1,92 @@
 <template>
     <div class="themes">
-        <div class="header" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')  +')'}">
-            <div class="th-re" onclick="window.history.go(-1)">
-                <i class="iconfont icon-jiantou-copy"></i>
-            </div>
-            {{data.name}}
+        <div v-show="slide" class="sidebar-mask" v-on:click="slideShow()">
         </div>
-        <router-link :to="{ name: 'editor',  params: { id: $route.params.id }}">
-        <div class="editor" >
-            主编
-            <i class="iconfont icon-jiantou fr"></i>
-            <img v-for="e in data.editors" :src="e.avatar.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
-        </div>
-        </router-link>
-        <div class="art" v-for="e in data.stories">
-        <router-link :to="{ name: 'detail',  params: { id: e.id }}">
-            <div class="list-content-box" v-bind:class="{bindwidth:e.images}">
-                {{e.title}}
+        <slideBox :slide="slide"></slideBox>
+        <div class="themes-content" v-bind:class="{ show: slide }">
+            <div class="header" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')  +'&w=100)'}">
+                <div class="th-re">
+                    <i class="iconfont icon-jiantou-copy" v-on:click="slideShow()"></i>
+                </div>
+                {{data.name}}
             </div>
-            <div v-if="e.images" class="imgshow">
-                <img :src="e.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
-            </div>
+            <router-link :to="{ name: 'editor',  params: { id: $route.params.id }}">
+                <div class="editor">
+                    主编
+                    <i class="iconfont icon-jiantou fr"></i>
+                    <img v-for="e in data.editors" :src="e.avatar.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
+                </div>
             </router-link>
-        </div> 
+            <div class="art" v-for="e in data.stories">
+                <router-link :to="{ name: 'detail',  params: { id: e.id }}">
+                    <div class="list-content-box" v-bind:class="{bindwidth:e.images}">
+                        {{e.title}}
+                    </div>
+                    <div v-if="e.images" class="imgshow">
+                        <img :src="e.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
+                    </div>
+                </router-link>
+            </div>
+        </div>
     </div>
 </template>
 <script>
+import slideBox from './slideBox';
 export default {
     name: 'themes',
+     watch: {
+        '$route' (to, from) {
+            console.log(to);
+            console.log(from);
+            this.getThemeContent();
+            this.slide = false;
+        }
+    },
+    beforeRouteLeave: function (to, from, next) {
+        sessionStorage.setItem('scrollTop', document.body.scrollTop);
+        console.log(window.sessionStorage.scrollTop);
+        next();
+    },
+    beforeRouteEnter: function (to, from, next) {
+        // this.sc();
+        // console.log(window.sessionStorage.scrollTop);
+        // console.log(window.document.body.scrollTop);
+        // window.document.body.scrollTop = window.sessionStorage.scrollTop;
+        next();
+
+    },
     data() {
         return {
-            data: ''
+            data: '',
+            slide: false,
         }
     },
     components: {
-
+        slideBox
     },
     mounted: function() {
         this.$nextTick(() => {
             this.getThemeContent();
-              document.documentElement.style.overflow='';
-                document.body.style.overflow='';
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        })
+    },
+    updated: function(){
+        this.$nextTick(() => {
+            this.sc();
         })
     },
     methods: {
+        sc:function(){
+            window.document.body.scrollTop = window.sessionStorage.scrollTop;
+        },
+        slideShow: function() {
+            this.slide == true ? this.slide = false : this.slide = true;
+        },
         getThemeContent: function() {
-            this.$http.get('api/4/theme/'+this.$route.params.id).then((response) => {
-                console.log(response.data);
-                if(response.status == 200){
+            this.$http.get('api/4/theme/' + this.$route.params.id).then((response) => {
+                // console.log(response.data);
+                if (response.status == 200) {
                     this.data = response.data;
                 }
             }, (error) => {
@@ -59,36 +98,62 @@ export default {
 }
 </script>
 <style>
-.bindwidth{
+.sidebar-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    background: rgba(0, 0, 0, .2);
+}
+.themes-content {
+    padding-top: 40px;
+    -webkit-transition: all .3s ease;
+}
+
+.themes-content.show {
+    -webkit-transform: translateX(17.733rem);
+    transform: translateX(17.733rem);
+}
+
+.bindwidth {
     width: 80%;
 }
-.art{
-    padding: 10px 10px; 
+
+.art {
+    padding: 10px 10px;
     height: 50px;
 }
-.imgshow{
+
+.imgshow {
     vertical-align: center;
     width: 20%;
     height: 50px;
     display: inline-block;
     float: right;
 }
-.imgshow img{
+
+.imgshow img {
     width: 100%;
     height: 100%;
 }
-.fr{
-    float:right;
+
+.fr {
+    float: right;
     margin-right: 20px;
 }
-.th-re{
+
+.th-re {
     position: absolute;
     width: 50px;
 }
-.themes{
-    padding-top: 40px;
+
+.themes {
+    /*padding-top: 40px;*/
 }
-.themes .header{
+
+.themes .header {
     max-width: 800px;
     background-size: cover;
     background-position: 0 -184px;
@@ -97,45 +162,43 @@ export default {
     z-index: 2;
     font-weight: bold;
     width: 100%;
-    color:#fff;
+    color: #fff;
     position: fixed;
-    top:0;
+    top: 0;
     height: 40px;
     line-height: 40px;
     text-align: center
 }
-.art a{
-    color:#000;
+
+.art a {
+    color: #000;
 }
-.editor img{
+
+.editor img {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     margin-left: 10px;
-    vertical-align:middle;
+    vertical-align: middle;
 }
-.editor{
+
+.editor {
     height: 40px;
     line-height: 40px;
     padding-left: 1rem;
     border-bottom: 1px solid #eee;
     font-size: 1.4rem;
 }
-.list-content-box{
-    /*height: 70px;*/
-    /*padding: 10px 0px 0px 10px; */
-    /*margin-right: .267rem;*/
+
+.list-content-box {
     display: inline-block;
-   /* -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;*/
-    /*width: 70% !important;*/
 }
-.art{
+
+.art {
     border-bottom: 1px solid #eee;
     font-size: 1.6rem;
-    /*padding: 1rem 1rem;*/
 }
+
 .img-box2 {
     height: 220px;
     width: 100%;
@@ -157,6 +220,19 @@ export default {
 .headline,
 .img-place-holder {
     display: none;
+}
+
+
+.night .editor,.night .art{
+    background-color: #343434;
+     color: #b6b6b6;
+    border-bottom-color: #303030;
+}
+.night .art .list-content-box{
+   color: #b6b6b6; 
+}
+.night .article .a-title{
+    color: #b6b6b6;
 }
 
 </style>

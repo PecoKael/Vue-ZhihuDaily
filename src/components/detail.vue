@@ -122,7 +122,17 @@ span.comment{
     background-size: cover;
     position: relative;
 }
-
+.night .img-box2{
+    border-bottom-color:#2f2f2f;
+}
+.night .detail-tab{
+    background-color: #333333;
+    border-top-color: #2f2f2f;
+    color:#868686;
+}
+.night .detail-tab .icon-pinglun{
+    color: #868686;
+}
 .img-box2 .top-title {
     position: absolute;
     bottom: 1.8rem;

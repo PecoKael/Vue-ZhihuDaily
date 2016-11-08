@@ -116,6 +116,14 @@ export default {
 </script>
 
 <style>
+.night .comment-head{
+    background-color: #444;
+}
+.night .com-content, .night .com-title{
+    background-color: #343434;
+    color:#b6b6b6;
+    border-bottom-color: #303030;
+}
 .return{
     display: inline-block;
     float:left;

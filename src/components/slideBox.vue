@@ -20,8 +20,13 @@
         </div>
         <div class="slide-themes">
             <ul>
-                <li v-for="theme in themes.others">
-                    <router-link :to="{ name: 'themes',  params: { id: theme.id }}">
+                <li>
+                    <router-link to="/">
+                        首页
+                    </router-link>
+                </li>
+                <li v-for="theme in themes.others" >
+                    <router-link :to="{ name: 'themes', params: { id: theme.id }}">
                         {{theme.name}}
                     </router-link>
                 </li>
@@ -46,7 +51,7 @@ export default {
     methods: {
         getThemes: function() {
             this.$http.get('api/4/themes').then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.status == 200) {
                     this.themes = response.data;
                 }
@@ -129,5 +134,9 @@ export default {
     top: 0;
     bottom: 0;
     background: #232a30;
+}
+
+.night .slide-box{
+    background-color: #1f1f1f;
 }
 </style>

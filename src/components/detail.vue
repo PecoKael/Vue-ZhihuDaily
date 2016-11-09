@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         getArticle: function() {
-            this.$http.get('api/4/news/' + this.$route.params.id).then((response) => {
+            this.$http.get('/api/4/news/' + this.$route.params.id).then((response) => {
                 console.log(response.data);
                 this.data = response.data;
             }, (error) => {
@@ -58,7 +58,7 @@ export default {
             });
         },
         getStoryExtra: function(){
-            this.$http.get('api/4/story-extra/' + this.$route.params.id).then((response) => {
+            this.$http.get('/api/4/story-extra/' + this.$route.params.id).then((response) => {
                 console.log(response.data);
                 this.extra = response.data;
             }, (error) => {

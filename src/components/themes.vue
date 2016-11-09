@@ -34,7 +34,7 @@
 import slideBox from './slideBox';
 export default {
     name: 'themes',
-     watch: {
+    watch: {
         '$route' (to, from) {
             console.log(to);
             console.log(from);
@@ -42,19 +42,14 @@ export default {
             this.slide = false;
         }
     },
-    beforeRouteLeave: function (to, from, next) {
+    beforeRouteLeave: function(to, from, next) {
         sessionStorage.setItem('scrollTop', document.body.scrollTop);
-        console.log(window.sessionStorage.scrollTop);
         next();
     },
-    beforeRouteEnter: function (to, from, next) {
-        // this.sc();
-        // console.log(window.sessionStorage.scrollTop);
-        // console.log(window.document.body.scrollTop);
-        // window.document.body.scrollTop = window.sessionStorage.scrollTop;
-        next();
+    // beforeRouteEnter: function (to, from, next) {
 
-    },
+
+    // },
     data() {
         return {
             data: '',
@@ -62,7 +57,7 @@ export default {
         }
     },
     components: {
-        slideBox
+        slideBox,
     },
     mounted: function() {
         this.$nextTick(() => {
@@ -71,21 +66,20 @@ export default {
             document.body.style.overflow = '';
         })
     },
-    updated: function(){
+    updated: function() {
         this.$nextTick(() => {
-            this.sc();
+            // this.sc();
         })
     },
     methods: {
-        sc:function(){
+        sc: function() {
             window.document.body.scrollTop = window.sessionStorage.scrollTop;
         },
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
         },
-        getThemeContent: function() {
-            this.$http.get('api/4/theme/' + this.$route.params.id).then((response) => {
-                // console.log(response.data);
+        'getThemeContent' () {
+            this.$http.get('/api/4/theme/' + this.$route.params.id).then((response) => {
                 if (response.status == 200) {
                     this.data = response.data;
                 }
@@ -107,6 +101,7 @@ export default {
     z-index: 5;
     background: rgba(0, 0, 0, .2);
 }
+
 .themes-content {
     padding-top: 40px;
     -webkit-transition: all .3s ease;
@@ -222,17 +217,18 @@ export default {
     display: none;
 }
 
-
-.night .editor,.night .art{
+.night .editor,
+.night .art {
     background-color: #343434;
-     color: #b6b6b6;
+    color: #b6b6b6;
     border-bottom-color: #303030;
 }
-.night .art .list-content-box{
-   color: #b6b6b6; 
-}
-.night .article .a-title{
+
+.night .art .list-content-box {
     color: #b6b6b6;
 }
 
+.night .article .a-title {
+    color: #b6b6b6;
+}
 </style>

@@ -1,8 +1,6 @@
 <template>
     <div class="comments">
-        <div class="comment-head">
-            {{extra.comments}}条点评
-        </div>
+        <comHeader :title = "extra.comments + '条点评'"></comHeader>
         <div class="com-container">
             <div class="com-title">
                 {{extra.long_comments}}条长评
@@ -61,6 +59,7 @@
 </template>
 
 <script>
+import comHeader from './header.vue'
 export default {
     name: 'comments',
     data() {
@@ -69,6 +68,9 @@ export default {
             scomments:'',
             extra:''
         }
+    },
+    components: {
+        comHeader
     },
     filters: {
         timeStr: function (obj) {
@@ -89,7 +91,7 @@ export default {
     },
     methods: {
         getShortComments: function() {
-            this.$http.get('api/4/story/' + this.$route.params.id + '/short-comments').then((response) => {
+            this.$http.get('/api/4/story/' + this.$route.params.id + '/short-comments').then((response) => {
                 // console.log(response.data);
                 this.scomments = response.data.comments; 
             }, (error) => {
@@ -97,14 +99,14 @@ export default {
             });
         },
         getLongComments: function() {
-            this.$http.get('api/4/story/' + this.$route.params.id + '/long-comments').then((response) => {
+            this.$http.get('/api/4/story/' + this.$route.params.id + '/long-comments').then((response) => {
                 this.comments = response.data.comments;
             }, (error) => {
                 console.log(error);
             });
         },
         getStoryExtra: function(){
-            this.$http.get('api/4/story-extra/' + this.$route.params.id).then((response) => {
+            this.$http.get('/api/4/story-extra/' + this.$route.params.id).then((response) => {
                 console.log(response.data);
                 this.extra = response.data;
             }, (error) => {

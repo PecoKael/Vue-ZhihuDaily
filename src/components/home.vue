@@ -6,7 +6,8 @@
         <div class="homecontent" v-bind:class="{ show: slide }">
             <div class="header" id="header">
                 <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> 今日热文
-                <i @click="changeMode">quehuan</i>
+                <i v-if = "!nightStyle" class="iconfont icon-yejian01 icon-flr" @click="changeMode"></i>
+                <i v-else class="iconfont icon-mianbanbaitian icon-flr" @click="changeMode"></i>
             </div>
             <mt-swipe :auto="4000">
                 <mt-swipe-item class="slide1" v-for="item in items">
@@ -36,18 +37,17 @@ export default {
             article: [],
             slide: false,
             themes: '',
-            nightStyle: false
+            nightStyle: false,
         }
     },
     components: {
         articles,
         slideBox
     },
-
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            window.document.getElementById('main').classList.contains('night') ? '' : this.setScroll();
+            window.document.getElementById('main').classList.contains('night') ? this.nightStyle = true : this.setScroll();
             this.getThemes();
         })
     },
@@ -76,7 +76,7 @@ export default {
 
         },
         getThemes: function() {
-            this.$http.get('api/4/themes').then((response) => {
+            this.$http.get('/api/4/themes').then((response) => {
                 console.log(response.data);
                 if (response.status == 200) {
                     this.themes = response.data;
@@ -97,7 +97,7 @@ export default {
             }
         },
         getTopStories: function() {
-            this.$http.get('api/4/news/latest').then((response) => {
+            this.$http.get('/api/4/news/latest').then((response) => {
                 console.log(response.data);
                 if (response.status == 200) {
                     this.article = response.data.stories;
@@ -157,6 +157,12 @@ export default {
     width: 50px;
     position: absolute;
     left: 0;
+}
+
+.icon-flr{
+    width: 50px;
+    position: absolute;
+    right: 0;
 }
 
 .mint-swipe {

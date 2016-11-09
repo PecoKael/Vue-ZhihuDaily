@@ -5,13 +5,13 @@
                 {{list.date | getDays}}
             </div>
             <router-link :to="{ name: 'detail',  params: { id: article.id }}" v-for="article in list.stories">
-            <div class="article" >
-                <div class="a-title">{{article.title}}</div>
-                <div class="img-box">
-                    <span class="multipic" v-if="article.multipic"><i class="iconfont icon-duotu"></i>多图</span>
-                    <img :src="article.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')+'&w=200'" alt="">
+                <div class="article">
+                    <div class="a-title">{{article.title}}</div>
+                    <div class="img-box">
+                        <span class="multipic" v-if="article.multipic"><i class="iconfont icon-duotu"></i>多图</span>
+                        <img :src="article.images[0].replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')+'&w=200'" alt="">
+                    </div>
                 </div>
-            </div>
             </router-link>
         </div>
     </div>
@@ -27,7 +27,22 @@ export default {
         return {
             items: [],
             day: 1,
-            date:''
+            date: ''
+        }
+    },
+    filters: {
+        getDays: function(value) {
+            let week = new Date(value.slice(0, 4) + '/' + value.slice(4, 6) + '/' + value.slice(6, 8)).getDay();
+            let dayMap = {
+                '0': '星期日',
+                '1': '星期一',
+                '2': '星期二',
+                '3': '星期三',
+                '4': '星期四',
+                '5': '星期五',
+                '6': '星期六',
+            }
+            return value.slice(4, 6) + '月' + value.slice(6, 8) + '日 ' + dayMap[week];
         }
     },
     components: {
@@ -36,17 +51,31 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            console.log('!!!'+this.article);
+            console.log('!!!' + this.article);
         })
     },
     methods: {
         loadMore: function() {
             this.getBefore();
         },
+        getDateStr: function(day) {
+            var dd = new Date();
+            dd.setDate(dd.getDate() + day);
+            var y = dd.getFullYear();
+            var m = dd.getMonth() + 1;
+            if (m < 10) {
+                m = '0' + m;
+            }
+            var d = dd.getDate();
+            if (d < 10) {
+                d = '0' + d;
+            }
+            return y + '' + m + '' + d;
+        },
         getBefore: function() {
             this.day -= 1;
-            let day = this.$getDateStr(this.day);
-            let url = 'api/4/news/before/' + day;
+            let day = this.getDateStr(this.day);
+            let url = '/api/4/news/before/' + day;
             this.$http.get(url).then((response) => {
                 console.log(response.data)
                 if (response.status == 200) {
@@ -57,7 +86,7 @@ export default {
             });
         },
         getTopStories: function() {
-            this.$http.get('api/4/news/latest').then((response) => {
+            this.$http.get('/api/4/news/latest').then((response) => {
                 // console.log(response.data);
                 this.date = response.data.date;
                 if (response.status == 200) {
@@ -71,21 +100,23 @@ export default {
 }
 </script>
 <style>
-.multipic{
-    background-color: rgba(0,0,0,0.5);
+.multipic {
+    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
-    padding:4px;
-    font-size:12px; 
+    padding: 4px;
+    font-size: 12px;
     -webkit-transform-origin-x: 0;
     -webkit-transform: scale(0.60);
     position: absolute;
     right: -18px;
     bottom: -5px;
 }
-.articles a{
-    color:#494b4d;
+
+.articles a {
+    color: #494b4d;
     text-decoration: none;
 }
+
 .article {
     position: relative;
     height: 6.4rem;
@@ -123,17 +154,17 @@ export default {
     padding: 0;
 }
 
-.night .date{
-    background-color: rgb(68,68,68);
+.night .date {
+    background-color: rgb(68, 68, 68);
     color: #b6b6b6;
 }
-.night .article{
+
+.night .article {
     background-color: #343434;
     border-bottom-color: #303030;
 }
 
-.night .article .a-title{
+.night .article .a-title {
     color: #b6b6b6;
 }
-
 </style>

@@ -3,7 +3,7 @@
         <div v-show="slide" class="sidebar-mask" v-on:click="slideShow()">
         </div>
         <slideBox :slide="slide"></slideBox>
-        <div class="themes-content" v-bind:class="{ show: slide }">
+        <div class="themes-content" v-bind:class="{ show: slide }" v-infinite-scroll="getThemeContentBefore" infinite-scroll-immediate-check="false">
             <div class="header" :style="{'background-image': 'url('+ String(data.background).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')  +'&w=100)'}">
                 <div class="th-re">
                     <i class="iconfont icon-jiantou-copy" v-on:click="slideShow()"></i>
@@ -32,6 +32,9 @@
 </template>
 <script>
 import slideBox from './slideBox';
+import {
+    InfiniteScroll
+} from 'mint-ui';
 export default {
     name: 'themes',
     watch: {
@@ -50,10 +53,12 @@ export default {
         return {
             data: '',
             slide: false,
+            id:'',
         }
     },
     components: {
         slideBox,
+        InfiniteScroll
     },
     mounted: function() {
         this.$nextTick(() => {
@@ -74,16 +79,33 @@ export default {
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
         },
-        'getThemeContent' () {
-            this.$http.get('/api/4/theme/' + this.$route.params.id).then((response) => {
+        getThemeContent:function () {
+            this.$http.get('/api/4/theme/' + this.$route.params.id ).then((response) => {
+                console.log(response)
                 if (response.status == 200) {
                     this.data = response.data;
+                    this.id = response.data.stories[response.data.stories.length - 1].id;
+                }
+            }, (error) => {
+                console.log(error);
+            });
+        },
+        getThemeContentBefore: function(){
+            console.log(123);
+            this.$http.get('/api/4/theme/' + this.$route.params.id + '/before/' + this.id ).then((response) => {
+                console.log(response.data);
+                if (response.status == 200) {
+                    response.data.stories.forEach((e)=>{
+                        this.data.stories.push(e);
+                    })
+                    if(response.data.stories.length != 0){
+                       this.id = response.data.stories[response.data.stories.length - 1].id;  
+                    }
                 }
             }, (error) => {
                 console.log(error);
             });
         }
-
     }
 }
 </script>

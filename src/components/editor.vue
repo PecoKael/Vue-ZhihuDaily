@@ -2,7 +2,7 @@
     <div class="editors">
         <editorHeader title="主编" :back="true"></editorHeader>
         <div class="ed-container">
-            <div class="ed-box" v-for="e in data.editors">
+            <a class="ed-box" v-for="e in data.editors" :href="'http://news-at.zhihu.com/api/4/editor/'+e.id+'/profile-page/android'">
                 <i class="iconfont icon-jiantou edfr"></i>
                 <div class="avator">
                     <img :src="e.avatar.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')" alt="">
@@ -11,7 +11,7 @@
                     <span>{{e.name}}</span>
                     <div class="pp">{{e.bio}}</div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </template>
@@ -97,8 +97,8 @@ export default {
 }
 
 .ed-box {
+    display: block;
     padding-left: 20px;
-    /*width: 100%;*/
     height: 50px;
     position: relative;
     border-bottom: 1px solid #eee;

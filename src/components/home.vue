@@ -5,15 +5,13 @@
         <slideBox :slide="slide"></slideBox>
         <div class="homecontent" v-bind:class="{ show: slide }">
             <div class="header" id="header">
-                <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> 今日热文
+                <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> {{title}}
                 <i v-if = "!nightStyle" class="iconfont icon-yejian01 icon-flr" @click="changeMode"></i>
                 <i v-else class="iconfont icon-mianbanbaitian icon-flr" @click="changeMode"></i>
             </div>
             <mt-swipe :auto="4000">
                 <mt-swipe-item  v-for="item in items">
-                    
                     <router-link :to="{ name: 'detail',  params: { id: item.id }}">
-                        
                         <div class="banner" :style="{'background-image': 'url('+ item.image.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +'&w=300)'}">
                             <div class="img-mask">
                         
@@ -43,7 +41,8 @@ export default {
             slide: false,
             themes: '',
             nightStyle: false,
-            stories:[]
+            stories:[],
+            title:'今日热文',
         }
     },
     components: {
@@ -53,32 +52,21 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            window.document.getElementById('main').classList.contains('night') ? this.nightStyle = true : this.setScroll();
+            window.document.getElementById('main').classList.contains('night') ? this.nightStyle = true : window.addEventListener('scroll', ()=>{this.scroll('rgba(0,139,237,')}, false);
         })
     },
     methods: {
         changeMode: function() {
             if (!this.nightStyle) {
-                window.document.getElementById('main').className = 'night'
-                document.getElementById('header').style.background = 'rgb(68,68,68)'
-                window.onscroll = function() {
-                    let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
-                    if (document.getElementById('header') != null) {
-                        document.getElementById('header').style.background = 'rgba(68,68,68,' + op + ')';
-                    }
-                }
+                window.document.getElementById('main').className = 'night';
+                document.getElementById('header').style.background = 'rgb(68,68,68)';
+                window.addEventListener('scroll', ()=>{this.scroll('rgba(68,68,68,')}, false);
             } else {
                 window.document.getElementById('main').className = ''
                 document.getElementById('header').style.background = 'rgb(0,139,237)'
-                window.onscroll = function() {
-                    let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
-                    if (document.getElementById('header') != null) {
-                        document.getElementById('header').style.background = 'rgba(0,139,237,' + op + ')';
-                    }
-                }
+                window.addEventListener('scroll', ()=>{this.scroll('rgba(0,139,237,')}, false);
             }
             this.nightStyle = !this.nightStyle
-
         },
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
@@ -97,18 +85,17 @@ export default {
                 if (response.status == 200) {
                     this.stories = response.data.stories;
                     this.items = response.data.top_stories;
-                    console.log(this.stories);
+                    this.height = response.data.stories.length*95 + 220;
                 }
             }, (error) => {
                 console.log(error);
             });
         },
-        setScroll: function() {
-            window.onscroll = function() {
-                let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
-                if (document.getElementById('header') != null) {
-                    document.getElementById('header').style.background = 'rgba(0,139,237,' + op + ')';
-                }
+        scroll: function(color) {
+            // console.log(document.body.scrollTop);
+            let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
+            if (document.getElementById('header') != null) {
+                document.getElementById('header').style.background = color + op + ')';
             }
         }
     },

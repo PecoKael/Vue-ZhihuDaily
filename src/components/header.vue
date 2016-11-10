@@ -19,7 +19,6 @@ export default {
             date:''
         }
     },
-
     mounted: function() {
 
     },

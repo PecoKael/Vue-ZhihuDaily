@@ -1,36 +1,25 @@
 <template>
     <div class="detail">
         <div v-show="data.image" class="img-box2" :style="{'background-image': 'url('+ String(data.image).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +'&w=300)'}">
+            <div class="img-mask">
+                        
+            </div>
             <div class="top-title">
                 {{data.title}}
+            </div>
+            <div class="img-source">
+               图片：{{data.image_source}} 
             </div>
         </div>
         <div v-show="!data.image" class="theme-title">
             {{data.title}}
         </div>
         <div class="detail-content" v-html="String(data.body).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')"></div>
-        <!-- {{body}} -->
-        <div class="detail-tab">
-            <div class="tab-item" onclick="window.history.go(-1)">
-                <i class="iconfont icon-jiantou-copy"></i>
-            </div>
-            <div class="tab-item">
-                <i class="iconfont icon-jiantou-copy1"></i>
-            </div>
-            <div class="tab-item">
-                <i class="iconfont icon-down"></i>
-                <span class="zan">{{extra.popularity}}</span>
-            </div>
-            <router-link :to="{ name: 'comments',  params: { id: $route.params.id }}">
-                <div class="tab-item">
-                    <span class="comment">{{extra.comments}}</span>
-                    <i class="iconfont icon-pinglun"></i>
-                </div>
-            </router-link>
-        </div>
+        <detailFooter :extra="extra"></detailFooter>
     </div>
 </template>
 <script>
+import detailFooter from './detail-footer';
 export default {
     name: 'detail',
     data() {
@@ -40,7 +29,7 @@ export default {
         }
     },
     components: {
-
+        detailFooter
     },
     mounted: function() {
         this.$nextTick(() => {
@@ -69,47 +58,27 @@ export default {
 }
 </script>
 <style>
-span.zan{
-    position: relative;
-    top:-10px;
-}
-span.comment{
-    display: block;
+.img-source{
     position: absolute;
-    top:7px;
-    color: #fff;
-    left:40px;
-    left:52%;
-    width: 25px;
-    height: 14px;
-    line-height: 14px;
-    background: #1fb3f0;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    color: #d3cece;
 }
+.img-mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);  
+}
+
 .detail {
     padding-bottom: 40px;
 }
-.detail .tab-item{
-    position: relative;
-    display: inline-block;
-    width: 24%;
-    text-align: center;
-    line-height: 40px;
-}
-.detail-tab {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    height: 40px;
-    background: #fff;
-    z-index: 2;
-    border-top: 1px solid #eee;
-    max-width: 800px;
-}
 
 .theme-title {
-    /*text-align: center;*/
-    /*height: 50px;*/
-    /*line-height: 50px;*/
     padding: 10px 20px;
     font-size: 1.8rem;
     border-bottom: 4px solid #f6f6f6
@@ -125,17 +94,10 @@ span.comment{
 .night .img-box2{
     border-bottom-color:#2f2f2f;
 }
-.night .detail-tab{
-    background-color: #333333;
-    border-top-color: #2f2f2f;
-    color:#868686;
-}
-.night .detail-tab .icon-pinglun{
-    color: #868686;
-}
+
 .img-box2 .top-title {
     position: absolute;
-    bottom: 1.8rem;
+    bottom: 2rem;
     padding: 0 1rem;
     line-height: 1.2;
     font-weight: 500;

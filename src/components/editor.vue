@@ -29,7 +29,7 @@ export default {
     },
     mounted: function() {
         this.$nextTick(() => {
-            this.getThemeContent();
+            this.getThemeContent(); 
         })
     },
     methods: {

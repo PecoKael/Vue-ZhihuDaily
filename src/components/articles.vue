@@ -22,12 +22,11 @@ import {
 } from 'mint-ui';
 export default {
     name: 'articles',
-    props: ['article'],
     data() {
         return {
             items: [],
             day: 1,
-            date: ''
+            date: '',
         }
     },
     filters: {
@@ -51,7 +50,6 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            console.log('!!!' + this.article);
         })
     },
     methods: {

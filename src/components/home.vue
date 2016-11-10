@@ -10,15 +10,20 @@
                 <i v-else class="iconfont icon-mianbanbaitian icon-flr" @click="changeMode"></i>
             </div>
             <mt-swipe :auto="4000">
-                <mt-swipe-item class="slide1" v-for="item in items">
+                <mt-swipe-item  v-for="item in items">
+                    
                     <router-link :to="{ name: 'detail',  params: { id: item.id }}">
+                        
                         <div class="banner" :style="{'background-image': 'url('+ item.image.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +'&w=300)'}">
+                            <div class="img-mask">
+                        
+                            </div>
                             <div class="banner-title">{{item.title}}</div>
                         </div>
                     </router-link>
                 </mt-swipe-item>
             </mt-swipe>
-            <articles :article="article"></articles>
+            <articles></articles>
         </div>
     </div>
 </template>
@@ -34,10 +39,11 @@ export default {
     data() {
         return {
             items: [],
-            article: [],
+            getNews: [],
             slide: false,
             themes: '',
             nightStyle: false,
+            stories:[]
         }
     },
     components: {
@@ -48,7 +54,6 @@ export default {
         this.$nextTick(() => {
             this.getTopStories();
             window.document.getElementById('main').classList.contains('night') ? this.nightStyle = true : this.setScroll();
-            this.getThemes();
         })
     },
     methods: {
@@ -75,16 +80,6 @@ export default {
             this.nightStyle = !this.nightStyle
 
         },
-        getThemes: function() {
-            this.$http.get('/api/4/themes').then((response) => {
-                console.log(response.data);
-                if (response.status == 200) {
-                    this.themes = response.data;
-                }
-            }, (error) => {
-                console.log(error);
-            });
-        },
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
             console.log(document.documentElement.style.overflow);
@@ -100,9 +95,9 @@ export default {
             this.$http.get('/api/4/news/latest').then((response) => {
                 console.log(response.data);
                 if (response.status == 200) {
-                    this.article = response.data.stories;
+                    this.stories = response.data.stories;
                     this.items = response.data.top_stories;
-                    console.log(this.article);
+                    console.log(this.stories);
                 }
             }, (error) => {
                 console.log(error);
@@ -120,6 +115,15 @@ export default {
 }
 </script>
 <style scoped>
+.img-mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(bottom, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);  
+}
 .homecontent {
     -webkit-transition: all .3s ease;
 }

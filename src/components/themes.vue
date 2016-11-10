@@ -46,10 +46,6 @@ export default {
         sessionStorage.setItem('scrollTop', document.body.scrollTop);
         next();
     },
-    // beforeRouteEnter: function (to, from, next) {
-
-
-    // },
     data() {
         return {
             data: '',

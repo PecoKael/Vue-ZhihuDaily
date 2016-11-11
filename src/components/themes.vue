@@ -62,6 +62,7 @@ export default {
     },
     mounted: function() {
         this.$nextTick(() => {
+            console.log(this.$store.state.count);
             this.getThemeContent();
             document.documentElement.style.overflow = '';
             document.body.style.overflow = '';

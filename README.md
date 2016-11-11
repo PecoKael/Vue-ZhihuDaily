@@ -1,6 +1,15 @@
 # zhihu
 
-> A Vue.js project
+> A Vue.js project about zhihuDaily
+
+## 运行截图
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://ofn881vu0.bkt.clouddn.com/1.png)
 
 ## Build Setup
 

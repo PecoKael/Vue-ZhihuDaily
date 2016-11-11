@@ -1,20 +1,21 @@
 <template>
     <div class="home">
+        <!-- 遮罩 -->
         <div v-show="slide" class="sidebar-mask" v-on:click="slideShow()">
         </div>
+        <!-- 左侧滑动栏 -->
         <slideBox :slide="slide"></slideBox>
         <div class="homecontent" v-bind:class="{ show: slide }">
             <div class="header" id="header">
                 <i class="iconfont icon-gengduo" v-on:click="slideShow()"></i> {{title}}
-                <i v-if = "!nightStyle" class="iconfont icon-yejian01 icon-flr" @click="changeMode"></i>
+                <i v-if="!nightStyle" class="iconfont icon-yejian01 icon-flr" @click="changeMode"></i>
                 <i v-else class="iconfont icon-mianbanbaitian icon-flr" @click="changeMode"></i>
             </div>
             <mt-swipe :auto="4000">
-                <mt-swipe-item  v-for="item in items">
+                <mt-swipe-item v-for="item in items">
                     <router-link :to="{ name: 'detail',  params: { id: item.id }}">
                         <div class="banner" :style="{'background-image': 'url('+ item.image.replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p') +'&w=300)'}">
                             <div class="img-mask">
-                        
                             </div>
                             <div class="banner-title">{{item.title}}</div>
                         </div>
@@ -41,8 +42,8 @@ export default {
             slide: false,
             themes: '',
             nightStyle: false,
-            stories:[],
-            title:'今日热文',
+            stories: [],
+            title: '今日热文',
         }
     },
     components: {
@@ -52,25 +53,32 @@ export default {
     mounted: function() {
         this.$nextTick(() => {
             this.getTopStories();
-            window.document.getElementById('main').classList.contains('night') ? this.nightStyle = true : window.addEventListener('scroll', ()=>{this.scroll('rgba(0,139,237,')}, false);
+            window.document.getElementById('main').classList.contains('night') ? this.nightStyle = true : window.addEventListener('scroll', () => {
+                this.scroll('rgba(0,139,237,')
+            }, false);
         })
     },
     methods: {
+        /* 切换夜间白天模式 */
         changeMode: function() {
             if (!this.nightStyle) {
                 window.document.getElementById('main').className = 'night';
                 document.getElementById('header').style.background = 'rgb(68,68,68)';
-                window.addEventListener('scroll', ()=>{this.scroll('rgba(68,68,68,')}, false);
+                window.addEventListener('scroll', () => {
+                    this.scroll('rgba(68,68,68,')
+                }, false);
             } else {
                 window.document.getElementById('main').className = ''
                 document.getElementById('header').style.background = 'rgb(0,139,237)'
-                window.addEventListener('scroll', ()=>{this.scroll('rgba(0,139,237,')}, false);
+                window.addEventListener('scroll', () => {
+                    this.scroll('rgba(0,139,237,')
+                }, false);
             }
             this.nightStyle = !this.nightStyle
         },
+        /* 侧边栏隐藏显示 */
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
-            console.log(document.documentElement.style.overflow);
             if (document.documentElement.style.overflow == '') {
                 document.documentElement.style.overflow = 'hidden';
                 document.body.style.overflow = 'hidden';
@@ -79,20 +87,20 @@ export default {
                 document.body.style.overflow = '';
             }
         },
+        /* 获取首页文章数据 */
         getTopStories: function() {
             this.$http.get('/api/4/news/latest').then((response) => {
                 console.log(response.data);
                 if (response.status == 200) {
                     this.stories = response.data.stories;
                     this.items = response.data.top_stories;
-                    this.height = response.data.stories.length*95 + 220;
                 }
             }, (error) => {
                 console.log(error);
             });
         },
+        /* 绑定滚动事件 */
         scroll: function(color) {
-            // console.log(document.body.scrollTop);
             let op = document.documentElement.scrollTop || document.body.scrollTop / 220;
             if (document.getElementById('header') != null) {
                 document.getElementById('header').style.background = color + op + ')';
@@ -102,15 +110,16 @@ export default {
 }
 </script>
 <style scoped>
-.img-mask{
+.img-mask {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(bottom, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);
-    background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);  
+    background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.1) 100%);
 }
+
 .homecontent {
     -webkit-transition: all .3s ease;
 }
@@ -150,7 +159,7 @@ export default {
     left: 0;
 }
 
-.icon-flr{
+.icon-flr {
     width: 50px;
     position: absolute;
     right: 0;

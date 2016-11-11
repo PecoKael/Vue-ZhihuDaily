@@ -14,7 +14,8 @@
         <div v-show="!data.image" class="theme-title">
             {{data.title}}
         </div>
-        <div class="detail-content" v-html="String(data.body).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')"></div>
+        <div v-if="data.body" class="detail-content" v-html="String(data.body).replace(/http\w{0,1}:\/\/p/g, 'https://images.weserv.nl/?url=p')"></div>
+        <iframe v-else :src="data.share_url" frameborder="0">您的浏览器不支持iframe</iframe>
         <detailFooter :extra="extra"></detailFooter>
     </div>
 </template>

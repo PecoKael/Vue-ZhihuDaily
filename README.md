@@ -10,6 +10,8 @@
 ![](http://ofn881vu0.bkt.clouddn.com/1.png)
 ![](http://ofn881vu0.bkt.clouddn.com/1.png)
 ![](http://ofn881vu0.bkt.clouddn.com/1.png)
+![](http://7xqch8.com1.z0.glb.clouddn.com/blog_2016_07_picQQ20160708-6.png)
+![](http://7xqch8.com1.z0.glb.clouddn.com/blog_2016_07_picQQ20160708-7.png)
 
 ## Build Setup
 

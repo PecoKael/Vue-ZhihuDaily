@@ -6,7 +6,6 @@ var webpack = require('webpack')
 var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
-var request = require('request')
 
 
 // default port where dev server listens for incoming traffic

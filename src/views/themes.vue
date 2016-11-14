@@ -39,15 +39,9 @@ export default {
     name: 'themes',
     watch: {
         '$route' (to, from) {
-            console.log(to);
-            console.log(from);
             this.getThemeContent();
             this.slide = false;
         }
-    },
-    beforeRouteLeave: function(to, from, next) {
-        sessionStorage.setItem('scrollTop', document.body.scrollTop);
-        next();
     },
     data() {
         return {
@@ -62,25 +56,18 @@ export default {
     },
     mounted: function() {
         this.$nextTick(() => {
-            console.log(this.$store.state.count);
             this.getThemeContent();
             document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
         })
     },
-    updated: function() {
-        this.$nextTick(() => {
-            // this.sc();
-        })
-    },
     methods: {
-        sc: function() {
-            window.document.body.scrollTop = window.sessionStorage.scrollTop;
-        },
+        /* 左侧滑动栏显示隐藏 */
         slideShow: function() {
             this.slide == true ? this.slide = false : this.slide = true;
         },
-        getThemeContent:function () {
+        /* 获取主题内容 */
+        getThemeContent:function () { 
             this.$http.get('/api/4/theme/' + this.$route.params.id ).then((response) => {
                 console.log(response)
                 if (response.status == 200) {
@@ -91,6 +78,7 @@ export default {
                 console.log(error);
             });
         },
+        /* 获取之前的内容 */
         getThemeContentBefore: function(){
             console.log(123);
             this.$http.get('/api/4/theme/' + this.$route.params.id + '/before/' + this.id ).then((response) => {

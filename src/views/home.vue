@@ -38,9 +38,7 @@ export default {
     data() {
         return {
             items: [],
-            getNews: [],
             slide: false,
-            themes: '',
             nightStyle: false,
             stories: [],
             title: '今日热文',

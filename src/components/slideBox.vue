@@ -13,10 +13,6 @@
                 <i class="iconfont icon-lingdang"></i>
                 <div class="p">消息</div>
             </div>
-            <div class="contents">
-                <i class="iconfont icon-yejian01"></i>
-                <div class="p">夜间</div>
-            </div>
         </div>
         <div class="slide-themes">
             <ul>
@@ -45,7 +41,6 @@ export default {
     },
     mounted: function() {
         this.$nextTick(() => {
-            window.document.getElementById('main').classList.contains('night') ? this.mode = '夜间' : this.mode = '白天';
             this.getThemes();
         })
     },

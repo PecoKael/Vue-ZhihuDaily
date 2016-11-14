@@ -39,6 +39,7 @@ export default {
         })
     },
     methods: {
+        /* 获取文章详情 */
         getArticle: function() {
             this.$http.get('/api/4/news/' + this.$route.params.id).then((response) => {
                 console.log(response.data);
@@ -47,6 +48,7 @@ export default {
                 console.log(error);
             });
         },
+        /* 获取评论信息 */
         getStoryExtra: function(){
             this.$http.get('/api/4/story-extra/' + this.$route.params.id).then((response) => {
                 console.log(response.data);

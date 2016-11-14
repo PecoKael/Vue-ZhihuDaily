@@ -62,7 +62,7 @@
     </div>
 </template>
 <script>
-import comHeader from './header.vue'
+import comHeader from '../components/header.vue'
 export default {
     name: 'comments',
     data() {
@@ -173,7 +173,6 @@ export default {
 .text {
     padding-right: 10px;
     margin-top: 10px;
-    /*width: 10%;*/
 }
 
 .content-box {
@@ -181,7 +180,6 @@ export default {
     position: relative;
     display: inline-block;
     margin-left: 60px;
-    /*padding-bottom: 10px;*/
 }
 
 .content-box .title {
@@ -217,9 +215,7 @@ export default {
 
 .com-container {
     margin-bottom: 40px;
-    /*height: 30px;*/
     border-bottom: 1px solid #eee;
-    /*padding-left:20px;*/
     padding-top: 40px;
 }
 

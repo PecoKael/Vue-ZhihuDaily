@@ -31,7 +31,7 @@
     </div>
 </template>
 <script>
-import slideBox from './slideBox';
+import slideBox from '../components/slideBox';
 import {
     InfiniteScroll
 } from 'mint-ui';

@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import detailFooter from './detail-footer';
+import detailFooter from '../components/detail-footer';
 export default {
     name: 'detail',
     data() {

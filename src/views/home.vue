@@ -27,8 +27,8 @@
     </div>
 </template>
 <script>
-import articles from './articles';
-import slideBox from './slideBox';
+import articles from '../components/articles';
+import slideBox from '../components/slideBox';
 import {
     Swipe,
     SwipeItem

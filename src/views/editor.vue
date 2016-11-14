@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-import editorHeader from './header.vue';
+import editorHeader from '../components/header.vue';
 export default {
     name: 'themes',
     data() {
